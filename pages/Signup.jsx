@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { FaUserAlt, FaEnvelope, FaLock } from "react-icons/fa";
 
@@ -86,9 +87,9 @@ export default function Signup() {
         </form>
         <p className="text-center text-sm text-gray-400 mt-6">
           Already have an account?{" "}
-          <a href="/Login" className="text-purple-400 hover:underline">
+          <Link href="/Login" className="text-purple-400 hover:underline">
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>
