@@ -21,7 +21,7 @@ export default function Home() {
 
       <main className="min-h-screen bg-gray-50 text-gray-800 pt-[70px]">
         {/* Hero Section */}
-        <section className="relative flex flex-col items-center justify-center py-20 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+        <section className="relative flex flex-col items-center justify-center py-20 bg-gradient-to-r from-blue-500 to-indigo-600 text-white z-0">
           <Image
             src={hero}
             alt="Hand Image"

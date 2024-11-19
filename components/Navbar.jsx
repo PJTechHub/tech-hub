@@ -1,9 +1,33 @@
 import { useState } from "react";
 import Link from "next/link";
+import default_image from "../assets/User-Avatar-Profile-Background-PNG-Clip-Art-Image.png";
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Mock user data for demonstration
+  const user = null; // Set to `{ name: "Parth Joshi" }` to simulate logged-in user
+
+  // Mock data for search
+  const mockData = [
+    "Web Development",
+    "Ethical Hacking",
+    "React.js",
+    "Next.js",
+    "Cybersecurity",
+    "UI/UX Design",
+    "Node.js",
+    "Cloud Computing",
+    "Machine Learning",
+  ];
+
+  const filteredData = mockData.filter((item) =>
+    item.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -11,11 +35,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-      } shadow-lg fixed w-full z-50`}
-    >
+    <nav className="bg-gray-900 text-white shadow-lg fixed w-full z-50">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <div className="text-2xl font-bold">
@@ -37,48 +57,114 @@ export default function Navbar() {
             <button className="hover:text-blue-500 transition">
               More <span>&#9662;</span>
             </button>
-            <div
-              className={`absolute left-0 hidden w-40 bg-gray-200 dark:bg-gray-800 dark:text-white group-hover:flex flex-col z-50 shadow-md rounded`}
-            >
-              <Link href="/portfolio" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+            <div className="absolute left-0 hidden w-40 bg-gray-200 dark:bg-gray-800 dark:text-white group-hover:flex flex-col z-50 shadow-md rounded">
+              <Link
+                href="/portfolio"
+                className="block px-4 py-2 hover:bg-blue-500 hover:text-white rounded-t"
+              >
                 Portfolio
               </Link>
-              <Link href="/contact" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+              <Link
+                href="/contact"
+                className="block px-4 py-2 hover:bg-blue-500 hover:text-white "
+              >
                 Contact
               </Link>
-              <Link href="/blog" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
+              <Link
+                href="/blog"
+                className="block px-4 py-2 hover:bg-blue-500 hover:text-white rounded-b"
+              >
                 Blog
               </Link>
             </div>
           </div>
-          {/* Search Bar */}
-          <form action="/search" method="GET" className="flex items-center">
-            <input
-              type="text"
-              name="query"
-              placeholder="Search..."
-              className="px-3 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 focus:outline-none"
-              required
-            />
+        </div>
+
+        {/* Desktop Search Bar */}
+        <div className="hidden md:flex items-center relative space-x-4">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="px-4 py-2 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 shadow-md rounded-md max-h-40 overflow-auto">
+              {filteredData.length > 0 ? (
+                filteredData.map((item, index) => (
+                  <Link
+                    href={`/search?query=${item}`}
+                    key={index}
+                    className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                  >
+                    {item}
+                  </Link>
+                ))
+              ) : (
+                <p className="px-4 py-2 text-gray-500 dark:text-gray-400">
+                  No results found
+                </p>
+              )}
+            </div>
+          )}
+          {/* Profile Dropdown */}
+          <div className="relative">
             <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 transition"
+              className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-full flex items-center justify-center shadow-md focus:outline-none hover:scale-105 transition-transform duration-300"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              Search
+              {user ? (
+                <span className="text-lg font-bold text-gray-800 dark:text-white">
+                  {user.name[0].toUpperCase()}
+                </span>
+              ) : (
+                <Image
+                  src={default_image}
+                  alt="Default Avatar"
+                  className="w-8 h-8 rounded-full"
+                />
+              )}
             </button>
-          </form>
-          {/* Dark Mode Toggle */}
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-500 dark:hover:bg-blue-600 transition"
-          >
-            {darkMode ? "☀️" : "🌙"}
-          </button>
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+                {user ? (
+                  <>
+                    <p className="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">
+                      Hello, {user.name}
+                    </p>
+                    <hr className="border-gray-300 dark:border-gray-600" />
+                    <button
+                      onClick={() => alert("Logout functionality")}
+                      className="block w-full text-left px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/Login"
+                      className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/Signup"
+                      className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden focus:outline-none"
+          className="md:hidden focus:outline-none bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg
@@ -98,54 +184,135 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden bg-gray-200 dark:bg-gray-900 text-gray-800 dark:text-white">
-          <Link href="/" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            Home
-          </Link>
-          <Link href="/about" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            About
-          </Link>
-          <Link href="/services" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            Services
-          </Link>
-          <Link href="/portfolio" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            Portfolio
-          </Link>
-          <Link href="/contact" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            Contact
-          </Link>
-          <Link href="/blog" className="block px-4 py-2 hover:bg-blue-500 hover:text-white">
-            Blog
-          </Link>
-          <form
-            action="/search"
-            method="GET"
-            className="flex items-center mx-4 mt-2"
-          >
-            <input
-              type="text"
-              name="query"
-              placeholder="Search..."
-              className="flex-grow px-3 py-2 rounded-l-md border border-gray-300 focus:outline-none"
-              required
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 transition"
+        <div
+          className=" md:hidden h-full bg-gray-800 text-white transition-all duration-300 ease-in-out transform -translate-x-full z-50"
+          style={{
+            transform: isOpen ? "translateX(0)" : "translateX(-100%)",
+          }}
+        >
+          <div className="px-4 py-2 space-y-4">
+          <div className="space-y-2">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 shadow-md rounded-md max-h-40 overflow-auto">
+                  {filteredData.length > 0 ? (
+                    filteredData.map((item, index) => (
+                      <Link
+                        href={`/search?query=${item}`}
+                        key={index}
+                        className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                      >
+                        {item}
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="px-4 py-2 text-gray-500 dark:text-gray-400">
+                      No results found
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+            <Link
+              href="/"
+              className="block px-4 py-2 hover:bg-blue-500 "
+              onClick={() => setIsOpen(false)}
             >
-              Search
-            </button>
-          </form>
-          <button
-            onClick={toggleDarkMode}
-            className="block mx-auto mt-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-blue-500 dark:hover:bg-blue-600 transition"
-          >
-            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </button>
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="block px-4 py-2 hover:bg-blue-500"
+              onClick={() => setIsOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              href="/services"
+              className="block px-4 py-2 hover:bg-blue-500"
+              onClick={() => setIsOpen(false)}
+            >
+              Services
+            </Link>
+            <div className="relative group">
+              <button className="w-full text-left px-4 py-2 hover:bg-blue-500">
+                More <span>&#9662;</span>
+              </button>
+              <div className="absolute left-0 hidden w-40 bg-gray-200 dark:bg-gray-800 dark:text-white group-hover:flex flex-col z-50 shadow-md rounded">
+                <Link
+                  href="/portfolio"
+                  className="block px-4 py-2 hover:bg-blue-500 hover:text-white"
+                >
+                  Portfolio
+                </Link>
+                <Link
+                  href="/contact"
+                  className="block px-4 py-2 hover:bg-blue-500 hover:text-white"
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="/blog"
+                  className="block px-4 py-2 hover:bg-blue-500 hover:text-white"
+                >
+                  Blog
+                </Link>
+              </div>
+            </div>
+
+            {/* Profile Dropdown */}
+            <div className="relative mt-4">
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-blue-500"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                {user ? "Profile" : "Login / Sign Up"}
+              </button>
+              {menuOpen && (
+                <div className="absolute left-0 mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+                  {user ? (
+                    <>
+                      <p className="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">
+                        Hello, {user.name}
+                      </p>
+                      <hr className="border-gray-300 dark:border-gray-600" />
+                      <button
+                        onClick={() => alert("Logout functionality")}
+                        className="block w-full text-left px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/Login"
+                        className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        href="/Signup"
+                        className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </nav>
-  );
+  ); 
 }
