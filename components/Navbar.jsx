@@ -2,37 +2,15 @@ import { useState } from "react";
 import Link from "next/link";
 import default_image from "../assets/User-Avatar-Profile-Background-PNG-Clip-Art-Image.png";
 import Image from "next/image";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   // Mock user data for demonstration
   const user = null; // Set to `{ name: "Parth Joshi" }` to simulate logged-in user
-
-  // Mock data for search
-  const mockData = [
-    "Web Development",
-    "Ethical Hacking",
-    "React.js",
-    "Next.js",
-    "Cybersecurity",
-    "UI/UX Design",
-    "Node.js",
-    "Cloud Computing",
-    "Machine Learning",
-  ];
-
-  const filteredData = mockData.filter((item) =>
-    item.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark");
-  };
 
   return (
     <nav className="bg-gray-900 text-white shadow-lg fixed w-full z-50">
@@ -81,33 +59,8 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Search Bar */}
-        <div className="hidden md:flex items-center relative space-x-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-4 py-2 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {searchQuery && (
-            <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 shadow-md rounded-md max-h-40 overflow-auto">
-              {filteredData.length > 0 ? (
-                filteredData.map((item, index) => (
-                  <Link
-                    href={`/search?query=${item}`}
-                    key={index}
-                    className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
-                  >
-                    {item}
-                  </Link>
-                ))
-              ) : (
-                <p className="px-4 py-2 text-gray-500 dark:text-gray-400">
-                  No results found
-                </p>
-              )}
-            </div>
-          )}
+        <div className="hidden md:flex items-center space-x-4">
+          <SearchBar />
           {/* Profile Dropdown */}
           <div className="relative">
             <button
@@ -161,7 +114,6 @@ export default function Navbar() {
             )}
           </div>
         </div>
-
         {/* Mobile Menu Button */}
         <button
           className="md:hidden focus:outline-none bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300"
@@ -193,7 +145,7 @@ export default function Navbar() {
           }}
         >
           <div className="px-4 py-2 space-y-4">
-          <div className="space-y-2">
+            <div className="space-y-2">
               <input
                 type="text"
                 placeholder="Search..."
@@ -314,5 +266,5 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-  ); 
+  );
 }
