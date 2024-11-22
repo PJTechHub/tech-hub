@@ -5,7 +5,7 @@ const url='http://localhost:8080';
 
 
 export const userLogin = async (data) => {
-    return await Axiosinstance.post(`${url}User/login`, data);
+    return await Axiosinstance.post(`${url}/User/login`, data);
   };
   
   export const userSignup = async (data) => {
