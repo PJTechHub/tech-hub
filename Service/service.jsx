@@ -1,6 +1,6 @@
 import { Axiosinstance } from "./AxiosInterceptors";
 
-export const url = process.env.Next_APP_BASE_URL;
+export const url = "https://pj-tech-hub-backendmain.vercel.app";
 //  export const url='http://localhost:8080';
 
 

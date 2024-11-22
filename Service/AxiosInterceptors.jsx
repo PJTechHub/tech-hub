@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL for the backend
-const url = "https://pj-tech-hub-backend-two.vercel.app";
+const url = "https://pj-tech-hub-backendmain.vercel.app";
 
 // Create an Axios instance
 export const Axiosinstance = axios.create({
