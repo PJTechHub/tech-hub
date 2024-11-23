@@ -2,7 +2,7 @@ import { Axiosinstance } from "./AxiosInterceptors";
 
 // export const url = "https://pj-tech-hub-backendmain.vercel.app";
 // export const url = "http://localhost:8080";
- export const url='https://pj-backend.vercel.app';
+ export const url='https://pj-tech-hub-backend.vercel.app';
 
 export const userLogin = async (data) => {
   return await Axiosinstance.post(`${url}/User/login`, data);

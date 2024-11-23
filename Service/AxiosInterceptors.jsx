@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Base URL for the backend
 const baseURL = process.env.NODE_ENV === "production" 
-  ? "https://pj-backend.vercel.app" 
+  ? "https://pj-tech-hub-backend.vercel.app" 
   : "http://localhost:8080";
 
 // Create an Axios instance
