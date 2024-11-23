@@ -1,26 +1,25 @@
 import axios from "axios";
 
 // Base URL for the backend
-const url = "https://pj-tech-hub-backendmain.vercel.app";
+const baseURL = process.env.NODE_ENV === "production" 
+  ? "https://pj-backend.vercel.app" 
+  : "http://localhost:8080";
 
 // Create an Axios instance
 export const Axiosinstance = axios.create({
-  baseURL: url, // Use the backend URL
+  baseURL, // Set baseURL for the instance
   headers: {
     "Content-Type": "application/json", // Set default content type
-    // Remove Access-Control-Allow-Origin header here; it's for server responses
   },
 });
 
-// Request interceptor (optional)
+// Request interceptor
 Axiosinstance.interceptors.request.use(
-  async (req) => {
-    // Log the request for debugging
+  (req) => {
     console.log("Axios Request:", req);
     return req;
   },
   (error) => {
-    // Handle request error
     console.error("Axios Request Error:", error);
     return Promise.reject(error);
   }
@@ -28,26 +27,12 @@ Axiosinstance.interceptors.request.use(
 
 // Response interceptor
 Axiosinstance.interceptors.response.use(
-  async (res) => {
-    // Log the response for debugging
+  (res) => {
     console.log("Axios Response:", res);
     return res;
   },
-  async (err) => {
-    // Handle response errors
+  (err) => {
     console.error("Axios Response Error:", err.response || err.message);
-    if (err.response) {
-      if (err.response.status === 401) {
-        console.warn("Unauthorized access (401).");
-        // Add logic for handling 401 errors (e.g., redirect to login)
-      } else if (err.response.status === 403) {
-        console.warn("Forbidden access (403).");
-        // Add logic for handling 403 errors
-      } else if (err.response.status === 500) {
-        console.error("Server error (500).");
-        // Add logic for handling server errors
-      }
-    }
     return Promise.reject(err);
   }
 );
