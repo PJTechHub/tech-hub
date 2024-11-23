@@ -145,34 +145,7 @@ export default function Navbar() {
           }}
         >
           <div className="px-4 py-2 space-y-4">
-            <div className="space-y-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 shadow-md rounded-md max-h-40 overflow-auto">
-                  {filteredData.length > 0 ? (
-                    filteredData.map((item, index) => (
-                      <Link
-                        href={`/search?query=${item}`}
-                        key={index}
-                        className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
-                      >
-                        {item}
-                      </Link>
-                    ))
-                  ) : (
-                    <p className="px-4 py-2 text-gray-500 dark:text-gray-400">
-                      No results found
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
+            <SearchBar />
             <Link
               href="/"
               className="block px-4 py-2 hover:bg-blue-500 "

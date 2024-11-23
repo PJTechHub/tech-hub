@@ -53,14 +53,14 @@ const SearchBar = () => {
     return filteredData.map((item) => (
       <div key={item.name} className="flex flex-col w-full">
         <Link
-          href={`/search?query=${item.name}`} // Navigate to the search page with query
+          href={`/search?query=${item.name}`}
           className="block px-4 py-2 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
         >
           {item.name}
         </Link>
         {item.skills && item.skills.length > 0 && (
           <Link
-            href={`/search?query=${item.skills[0]}`} // Navigate to the search page with skills as query
+            href={`/search?query=${item.skills[0]}`}
             className="block px-4 py-2 text-sm text-gray-500 hover:bg-blue-500 hover:text-white dark:hover:bg-gray-700"
           >
             Skills: {item.skills.join(", ")}
@@ -71,7 +71,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="hidden md:flex items-center relative space-x-4 ">
+    <div className="flex items-center relative space-x-4"> {/* Removed 'hidden md:flex' */}
       <input
         type="text"
         placeholder="Search..."
