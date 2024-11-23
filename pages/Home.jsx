@@ -82,7 +82,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-16 bg-gray-50 h-[56vh]">
+        <section id="features" className="py-16 bg-gray-50">
           <h2 className="text-3xl font-bold text-center mb-10 text-gray-700">
             What We Offer
           </h2>
